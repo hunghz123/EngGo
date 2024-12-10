@@ -8,6 +8,7 @@ import com.example.enggo.data.DefaultAppContainer
 import com.example.enggo.ui.course.navigation.coursesScreen
 import com.example.enggo.ui.course.navigation.navigateToCourses
 import com.example.enggo.ui.dictionary.navigation.dictionaryScreen
+import com.example.enggo.ui.flashcard.navigation.flashcardHome
 import com.example.enggo.ui.unit.navigation.navigateToUnitList
 import com.example.enggo.ui.unit.navigation.unitListScreen
 import com.example.enggo.ui.home.navigation.HOME_ROUTE
@@ -61,5 +62,6 @@ fun AppNavHost(
         ChangePasswordScreen (onBackClick = navController::navigateToProfileAccount)
         profileScreen (onLogoutClick = navController::navigateToLogin, onClickProfile = navController::navigateToProfileView, onClickAccount = navController::navigateToProfileAccount)
         profileViewScreen (onBackClick = navController::navigateToProfile)
+        flashcardHome(navController)
     }
 }

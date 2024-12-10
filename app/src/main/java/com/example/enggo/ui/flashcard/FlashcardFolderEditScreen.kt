@@ -35,6 +35,7 @@ import com.example.enggo.model.Flashcard
 import com.example.enggo.model.FlashcardFolder
 import com.example.enggo.ui.theme.EngGoTheme
 
+/*
 @Composable
 fun editFCFolderScreen(fcFolder : FlashcardFolder) {
     var init by remember  { mutableStateOf(0) }
@@ -166,12 +167,8 @@ fun editFCFolderScreen(fcFolder : FlashcardFolder) {
 @Composable
 fun editFCFolderPreview() {
     EngGoTheme {
-        var t : FlashcardFolder = FlashcardFolder("ABC")
-        t.addFlashcard(Flashcard("abc", "xyz"))
-        t.addFlashcard(Flashcard("abc2", "xyz2"))
-        t.addFlashcard(Flashcard("abc3", "xyz3"))
-        Surface(modifier = Modifier.fillMaxSize()) {
-            editFCFolderScreen(fcFolder = t)
-        }
+
     }
 }
+
+ */

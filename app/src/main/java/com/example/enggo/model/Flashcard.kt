@@ -26,80 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.enggo.ui.theme.EngGoTheme
 
-class Flashcard (var FirstCard : String, var SecondCard : String) {
+class Flashcard (
+    var FirstCard : String,
+    var SecondCard : String,
+    var folderid : String = "0"
+)
 
-    @Composable
-    fun flashCardView(modifier : Modifier = Modifier) {
 
-        var s by remember { mutableStateOf(FirstCard) }
 
-        Card(
-            onClick = {
-                if (s.equals(FirstCard)) {
-                    s = SecondCard
-                }
-                else {
-                    s = FirstCard
-                }
-            },
-            modifier = modifier
-        ) {
-            Column (
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Text(
-                    text = s,
-                    textAlign = TextAlign.Center,
-                    fontSize = 22.sp,
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 2.dp)
-                )
-            }
-        }
-    }
-
-    @Composable
-    fun TwoSideFlashCardView(modifier : Modifier = Modifier) {
-        Card(
-            modifier = modifier
-        ) {
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = FirstCard,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
-                )
-
-                Text(
-                    text = SecondCard,
-                    fontSize = 16.sp,
-                    fontStyle = FontStyle.Italic,
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(start = 10.dp, bottom = 10.dp)
-                )
-            }
-        }
-    }
-}
-
-@Preview (showBackground = true)
-@Composable
-fun FlashCardPreview() {
-    EngGoTheme {
-        var x : Flashcard = Flashcard("Duck", "Vit")
-        x.flashCardView(modifier = Modifier.height(200.dp).width(400.dp))
-    }
-}
-
-@Preview (showBackground = true)
-@Composable
-fun TwoSideFlashcardPreview() {
-    EngGoTheme {
-        var x : Flashcard = Flashcard("Duck", "Vit")
-        x.TwoSideFlashCardView(modifier = Modifier.fillMaxWidth())
-    }
-}
