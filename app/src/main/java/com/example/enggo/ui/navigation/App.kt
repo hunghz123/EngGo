@@ -13,18 +13,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.enggo.navigation.AppNavHost
 import com.example.enggo.navigation.TopLevelDestination
+import com.example.enggo.ui.login.navigation.LOGIN_ROUTE
+import com.example.enggo.ui.register.navigation.REGISTER_ROUTE
 
 @Composable
 fun App(appState: AppState) {
+    val currentRoute = appState.navController.currentBackStackEntryAsState().value?.destination?.route
     Scaffold(
         bottomBar = {
-            BottomBar(
-                destinations = appState.topLevelDestinations,
-                onNavigateToDestination = appState::navigateToTopLevelDestination,
-                currentDestination = appState.currentDestination
-            )
+            if (currentRoute != REGISTER_ROUTE && currentRoute != LOGIN_ROUTE) {
+                BottomBar(
+                    destinations = appState.topLevelDestinations,
+                    onNavigateToDestination = appState::navigateToTopLevelDestination,
+                    currentDestination = appState.currentDestination
+                )
+            }
         }
     ) { padding ->
         Row(

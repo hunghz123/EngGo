@@ -1,66 +1,74 @@
 package com.example.enggo.ui.course
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.enggo.EngGoApplication
-import com.example.enggo.data.EngGoRepository
+import com.example.enggo.data.repository.CourseRepository
+import com.example.enggo.data.service.CourseService
 import com.example.enggo.model.course.Course
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
+import com.google.firebase.firestore.ListenerRegistration
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
-sealed interface CourseUiState {
-    data class Success(val courses: List<Course>) : CourseUiState
-    object Error : CourseUiState
-    object Loading : CourseUiState
+data class CourseUiState(
+    val courseList: List<Course> = listOf()
+)
+
+class CourseViewModel(
+    //val courseRepository: CourseRepository
+    private val courseService: CourseService
+) : ViewModel() {
+    private val _courses = MutableStateFlow<List<Course>>(emptyList())
+    val courses: StateFlow<List<Course>> = _courses
+
+    private var courseListener: ListenerRegistration? = null
+
+    init {
+        fetchCourses()
+    }
+
+//    val courseUiState: StateFlow<CourseUiState> =
+//        courseRepository.getAllCourses().map { CourseUiState(it) }
+//            .stateIn(
+//                scope = viewModelScope,
+//                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+//                initialValue = CourseUiState()
+//            )
+
+    private fun fetchCourses() {
+        courseListener?.remove()
+        courseListener = courseService.getAllCourses().addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            firebaseFirestoreException?.let {
+                // Error Handler
+                return@addSnapshotListener
+            }
+
+            querySnapshot?.let {it ->
+                val fetchedCourses = it.documents.mapNotNull { document ->
+                    document.toObject(Course::class.java)
+                }
+                _courses.value = fetchedCourses
+
+            }
+
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        courseListener?.remove()
+    }
 }
 
-class CourseViewModel(private val engGoRepository: EngGoRepository) : ViewModel() {
-    /** The mutable State that stores the status of the most recent request */
-    var courseUiState: CourseUiState by mutableStateOf(CourseUiState.Loading)
-        private set
-
-    /**
-     * Call getMarsPhotos() on init so we can display status immediately.
-     */
-    init {
-        getCourses()
-    }
-
-    /**
-     * Gets Course information from the EngGo API Retrofit service and updates the
-     * [Course] [List] [MutableList].
-     */
-    fun getCourses() {
-        viewModelScope.launch {
-            courseUiState = CourseUiState.Loading
-            courseUiState = try {
-                CourseUiState.Success(engGoRepository.getCourses())
-            } catch (e: IOException) {
-                Log.e("getCourses", "Error fetching courses", e)
-                CourseUiState.Error
-            } catch (e: HttpException) {
-                Log.e("getCourses", "Error fetching courses", e)
-                CourseUiState.Error
-            }
+class CourseViewModelFactory(private val courseService: CourseService) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(CourseViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return CourseViewModel(courseService) as T
         }
-    }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[APPLICATION_KEY] as EngGoApplication)
-                val engGoRepository = application.container.engGoRepository
-                CourseViewModel(engGoRepository = engGoRepository)
-            }
-        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "430614726318",
+    "project_id": "enggo-application",
+    "storage_bucket": "enggo-application.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430614726318:android:0e29018e9c515adfff4f3f",
+        "android_client_info": {
+          "package_name": "com.example.enggo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0qpVgj0ySzZkgohlQvFhKK7tcs1vzPts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

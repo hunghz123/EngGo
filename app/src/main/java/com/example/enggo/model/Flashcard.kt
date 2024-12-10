@@ -26,14 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.enggo.ui.theme.EngGoTheme
 
-class Flashcard {
-    var FirstCard : String = ""
-    var SecondCard : String = ""
-
-    fun Flashcard (s1 : String, s2: String) {
-        FirstCard = s1
-        SecondCard = s2
-    }
+class Flashcard (var FirstCard : String, var SecondCard : String) {
 
     @Composable
     fun flashCardView(modifier : Modifier = Modifier) {
@@ -97,9 +90,7 @@ class Flashcard {
 @Composable
 fun FlashCardPreview() {
     EngGoTheme {
-        var x : Flashcard = Flashcard()
-        x.FirstCard = "Một con vịt"
-        x.SecondCard = "cba"
+        var x : Flashcard = Flashcard("Duck", "Vit")
         x.flashCardView(modifier = Modifier.height(200.dp).width(400.dp))
     }
 }
@@ -108,9 +99,7 @@ fun FlashCardPreview() {
 @Composable
 fun TwoSideFlashcardPreview() {
     EngGoTheme {
-        var x : Flashcard = Flashcard()
-        x.FirstCard = "Duck"
-        x.SecondCard = "Vịt"
+        var x : Flashcard = Flashcard("Duck", "Vit")
         x.TwoSideFlashCardView(modifier = Modifier.fillMaxWidth())
     }
 }

@@ -76,7 +76,7 @@ fun createFCFolderScreen(fcFolder : FlashcardFolder) {
         Row() {
             Card(
                 modifier = Modifier.fillMaxWidth(0.5f)
-                    .padding(top = 10.dp, bottom = 10.dp, start = 10.dp)
+                    .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
                     .border(1.dp, Color.Black)
                     .clickable {
                         terms.add("")
@@ -171,7 +171,7 @@ fun createFCFolderScreen(fcFolder : FlashcardFolder) {
 @Composable
 fun createFCFolderPreview() {
     EngGoTheme {
-        var t : FlashcardFolder = FlashcardFolder()
+        var t : FlashcardFolder = FlashcardFolder("ABC")
         Surface(modifier = Modifier.fillMaxSize()) {
             createFCFolderScreen(fcFolder = t)
         }

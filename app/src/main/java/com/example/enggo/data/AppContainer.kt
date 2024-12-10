@@ -1,8 +1,12 @@
 package com.example.enggo.data
 
 import android.content.Context
+import androidx.room.Room
 import com.example.enggo.R
-import com.example.enggo.network.EngGoApiService
+import com.example.enggo.data.dictionary.DictionaryBaseRepository
+import com.example.enggo.data.dictionary.DictionaryDao
+import com.example.enggo.data.dictionary.DictionaryDatabase
+import com.example.enggo.data.dictionary.DictionaryRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -20,10 +24,11 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 
 interface AppContainer {
-    val engGoRepository: EngGoRepository;
+
+    val dictionaryRepository: DictionaryBaseRepository
 }
 
-class DefaultAppContainer : AppContainer {
+class DefaultAppContainer(private val context: Context) : AppContainer {
     //private val baseUrl = "http://localhost:5000/"
     private val baseUrl = "http://10.0.2.2:5000/"
     //private val baseUrl = "http://127.0.0.1:5000/"
@@ -37,17 +42,22 @@ class DefaultAppContainer : AppContainer {
         .baseUrl(baseUrl)
         .build()
 
-    /**
-     * Retrofit service object for creating api calls
-     */
-    private val retrofitService: EngGoApiService by lazy {
-        retrofit.create(EngGoApiService::class.java)
-    }
 
     /**
-     * DI implementation for Mars photos repository
+     * DI implementation for dictionary
      */
-    override val engGoRepository: EngGoRepository by lazy {
-        NetworkEngGoRepository(retrofitService)
+    private val dictionaryDao: DictionaryDao by lazy {
+        dictionaryDatabase.dictionaryDao
+    }
+
+    override val dictionaryRepository: DictionaryBaseRepository by lazy {
+        DictionaryRepository(dictionaryDao)
+    }
+
+    private val dictionaryDatabase: DictionaryDatabase by lazy {
+        Room.databaseBuilder(context, DictionaryDatabase::class.java, "dictionaryDb")
+            .createFromAsset("wordDB")
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

@@ -6,4 +6,7 @@
     <string name="courses">Courses</string>
     <string name="folder_library">Library</string>
     <string name="profile">Profile</string>
+
+    <string name="units">Units</string>
+    <string name="lesson">Lesson</string>
 </resources>

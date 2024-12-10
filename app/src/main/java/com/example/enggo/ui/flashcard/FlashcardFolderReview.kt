@@ -162,18 +162,10 @@ fun FlashcardFolderPreview() {
     EngGoTheme {
         var t : FlashcardFolder = FlashcardFolder()
         t.name = "Testing flashcard folder"
-        var x : Flashcard = Flashcard()
-        x.Flashcard("Vehicle", "Thuộc về xe cộ (adj)")
-        t.addFlashcard(x)
-        var x2 : Flashcard = Flashcard()
-        x2.Flashcard("vinicity", "Vùng lân cận, phụ cận")
-        t.addFlashcard(x2)
-        var x3 : Flashcard = Flashcard()
-        x3.Flashcard("cater", "Phục vụ, cung cấp (v)")
-        t.addFlashcard(x3)
-        var x4 : Flashcard = Flashcard()
-        x4.Flashcard("Pastoral Care", "Mục vụ (trách nhiệm chăm sóc và tư vấn được cung cấp bởi các nhà lãnh đạo tôn giáo)")
-        t.addFlashcard(x4)
+        t.addFlashcard(Flashcard("Vehicle", "Thuộc về xe cộ (adj)"))
+        t.addFlashcard(Flashcard("vinicity", "Vùng lân cận, phụ cận"))
+        t.addFlashcard(Flashcard("cater", "Phục vụ, cung cấp (v)"))
+        t.addFlashcard(Flashcard("Pastoral Care", "Mục vụ (trách nhiệm chăm sóc và tư vấn được cung cấp bởi các nhà lãnh đạo tôn giáo)"))
         Surface(modifier = Modifier.fillMaxSize()) {
             FlashcardFolderView(fcFolder = t)
         }

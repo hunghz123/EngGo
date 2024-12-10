@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.enggo.ui.navigation.App
 import com.example.enggo.ui.navigation.rememberAppState
 import com.example.enggo.ui.theme.EngGoTheme
+import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
                 App(appState);
             }
         }
+        FirebaseApp.initializeApp(this)
     }
 }
 

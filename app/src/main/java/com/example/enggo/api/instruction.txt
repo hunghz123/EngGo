@@ -1,7 +1,0 @@
-npm init
-npm install express mysql2 body-parser cors
-
-create file server.js
-copy code in code.txt
-
-node server.js

@@ -1,14 +1,18 @@
 package com.example.enggo.model.course
 
+import androidx.annotation.NonNull
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class Course (
-    @SerialName(value = "course_id") val courseId: Int,
-    @SerialName(value = "course_name") val courseName: String,
-    @SerialName(value = "course_description") val description: String,
-    @SerialName(value = "course_level") val level: Int
+
+class Course (
+    val course_id: Int = 0,
+    val course_name: String = "",
+    val course_description: String = "",
+    val course_level: Int = 0,
 )
 
 // level
